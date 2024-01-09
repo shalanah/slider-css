@@ -1,12 +1,40 @@
 import RangeSlider from "react-range-slider-input";
-import "react-range-slider-input/dist/style.css";
 import styled from "styled-components";
 
 const Slider = styled(RangeSlider)`
   --bg: #fff;
   height: 30px;
   background: none !important;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  cursor: pointer;
+  display: block;
   position: relative;
+  width: 100%;
+  input[type="range"] {
+    -webkit-appearance: none;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 0;
+    height: 0;
+    border: 0;
+  }
+  input[type="range"]:focus {
+    outline: 0;
+  }
   &:before {
     content: "";
     width: 100%;
@@ -20,16 +48,23 @@ const Slider = styled(RangeSlider)`
   .range-slider__range {
     height: 3px;
     background: var(--bg);
+    position: absolute;
+    z-index: 1;
+    transform: translate(0, -50%);
+    top: 50%;
+    width: 100%;
   }
   .range-slider__thumb {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    transform: translate(-50%, -50%);
     box-sizing: border-box;
     height: 26px;
     width: 26px;
     background: transparent;
     transform-origin: center;
-    transition:
-      0.1s transform,
-      0.3s border;
+    transition: 0.1s transform, 0.3s border;
     &:before,
     &:after {
       content: "";
