@@ -1,40 +1,84 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
+import styled from "styled-components";
 
-function App() {
-  const [count, setCount] = useState(0);
+const Slider = styled(RangeSlider)`
+  --bg: #fff;
+  height: 30px;
+  background: none !important;
+  position: relative;
+  &:before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    background: #ccc;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .range-slider__range {
+    height: 3px;
+    background: var(--bg);
+  }
+  .range-slider__thumb {
+    box-sizing: border-box;
+    height: 26px;
+    width: 26px;
+    background: transparent;
+    transform-origin: center;
+    transition:
+      0.1s transform,
+      0.3s border;
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      border-radius: 100%;
+      transform-origin: center;
+      transition: 0.15s;
+    }
+    &:before {
+      transform: scale(0.5);
+    }
+    &:hover {
+      cursor: grab;
+      &:before {
+        transform: scale(1);
+      }
+      &:after {
+        transform: scale(1.5);
+        opacity: 0.3;
+      }
+    }
+  }
+  &.single-thumb .range-slider__thumb[data-lower] {
+    width: 0px;
+    visibility: hidden;
+  }
+  .range-slider__thumb[data-active]:after {
+    opacity: 1;
+    transform: scale(1.5);
+    transition: 0.4s;
+  }
+`;
 
+export default function App() {
   return (
-    <div className="App">
-      <div>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <h1>React + Vite</h1>
-      <h2>On CodeSandbox!</h2>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR.
-        </p>
-
-        <p>
-          Tip: you can use the inspector button next to address bar to click on
-          components in the preview and open the code in the editor!
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <>
+      <Slider step={"any"} rangeSlideDisabled={true} />
+      <Slider
+        className="single-thumb"
+        defaultValue={[0, 50]}
+        thumbsDisabled={[true, false]}
+        rangeSlideDisabled={true}
+        step={"any"}
+      />
+    </>
   );
 }
-
-export default App;
