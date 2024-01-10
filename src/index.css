@@ -16,9 +16,13 @@
 
 html,
 body {
+  height: 100%;
   background-color: #000;
 }
-
+.pointer-grabbing,
+.pointer-grabbing * {
+  cursor: grabbing !important;
+}
 .range-slider {
   width: 480px;
   margin: 24px auto 0;

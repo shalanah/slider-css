@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 import styled from "styled-components";
 
@@ -104,15 +105,46 @@ const Slider = styled(RangeSlider)`
 `;
 
 export default function App() {
+  const [drag, setDrag] = useState(false);
+  const [value, setValue] = useState([0, 50]);
+  useEffect(() => {
+    if (drag) {
+      document.body.classList.add("pointer-grabbing");
+    } else {
+      document.body.classList.remove("pointer-grabbing");
+    }
+  }, [drag]);
   return (
     <>
-      <Slider step={"any"} rangeSlideDisabled={true} />
       <Slider
+        value={value}
+        step={0.5}
+        rangeSlideDisabled={true}
+        onThumbDragStart={() => {
+          setDrag(true);
+        }}
+        onThumbDragEnd={() => {
+          setDrag(false);
+        }}
+        onInput={(v) => {
+          setValue(v);
+        }}
+      />
+      <Slider
+        value={[0, value[1]]}
+        step={0.5}
         className="single-thumb"
-        defaultValue={[0, 50]}
         thumbsDisabled={[true, false]}
         rangeSlideDisabled={true}
-        step={"any"}
+        onThumbDragStart={() => {
+          setDrag(true);
+        }}
+        onThumbDragEnd={() => {
+          setDrag(false);
+        }}
+        onInput={(v) => {
+          setValue((prev) => [prev[0], v[1]]);
+        }}
       />
     </>
   );
